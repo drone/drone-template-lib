@@ -1,0 +1,15 @@
+[[constraint]]
+  name = "github.com/aymerick/raymond"
+  version = "2.0.2"
+
+[[constraint]]
+  name = "github.com/pkg/errors"
+  version = "0.8.0"
+
+[prune]
+  go-tests = true
+  unused-packages = true
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/tkuchiki/faketime"
