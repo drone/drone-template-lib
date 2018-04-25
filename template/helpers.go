@@ -100,13 +100,18 @@ func isFailure(conditional bool, options *raymond.Options) string {
 }
 
 func truncate(s string, len int) string {
-	if utf8.RuneCountInString(s) <= len {
+	if utf8.RuneCountInString(s) <= int(math.Abs(float64(len))) {
 		return s
 	}
 
 	runes := []rune(s)
 
-	return string(runes[:len])
+	if len < 0 {
+ 		len = -len
+		return string(runes[len:])
+	} else {
+		return string(runes[:len])
+	}
 }
 
 func urlencode(options *raymond.Options) string {
