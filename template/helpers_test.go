@@ -90,3 +90,11 @@ func TestUppercaseFirst(t *testing.T) {
 		}
 	}
 }
+
+func TestRegexReplace(t *testing.T) {
+	expected := "hello-my-String-123"
+	actual := regexReplace("(.*?)\\/(.*)", "hello/my-String-123", "$1-$2")
+	if actual != "hello-my-String-123" {
+		t.Errorf("error, expected %s, got %s", expected, actual)
+	}
+}

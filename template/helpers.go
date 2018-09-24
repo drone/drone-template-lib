@@ -17,6 +17,7 @@ package template
 import (
 	"fmt"
 	"net/url"
+	"regexp"
 	"strings"
 	"time"
 	"unicode"
@@ -116,4 +117,9 @@ func uppercaseFirst(s string) string {
 	s = string(a)
 
 	return s
+}
+
+func regexReplace(pattern string, input string, replacement string) string {
+	re := regexp.MustCompile(pattern)
+	return re.ReplaceAllString(input, replacement)
 }
