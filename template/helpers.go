@@ -40,6 +40,7 @@ var (
 		"lowercase":      strings.ToLower,
 		"trim":           strings.TrimSpace,
 		"title":          strings.Title,
+		"regexReplace":   regexReplace,
 	}
 )
 
