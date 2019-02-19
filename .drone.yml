@@ -1,18 +1,40 @@
-workspace:
-  base: /go
-  path: src/github.com/drone/drone-template-lib
+---
+kind: pipeline
+name: testing
 
-pipeline:
-  deps:
-    image: golang:1.10
-    pull: true
-    commands:
-      - go get -u github.com/golang/dep/cmd/dep
-      - dep ensure
+platform:
+  os: linux
+  arch: amd64
 
-  test:
-    image: golang:1.10
-    pull: true
-    commands:
-      - go vet ./...
-      - go test -cover ./...
+steps:
+- name: vet
+  pull: always
+  image: golang:1.11
+  commands:
+  - go vet ./...
+  environment:
+    GO111MODULE: on
+  volumes:
+  - name: gopath
+    path: /go
+
+- name: test
+  pull: always
+  image: golang:1.11
+  commands:
+  - go test -cover ./...
+  environment:
+    GO111MODULE: on
+  volumes:
+  - name: gopath
+    path: /go
+
+volumes:
+- name: gopath
+  temp: {}
+
+trigger:
+  ref:
+  - refs/heads/master
+  - "refs/tags/**"
+  - "refs/pull/**"

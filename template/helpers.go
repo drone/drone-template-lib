@@ -23,6 +23,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
+	"github.com/Masterminds/sprig"
 	"github.com/aymerick/raymond"
 )
 
@@ -38,13 +39,19 @@ var (
 		"uppercasefirst": uppercaseFirst,
 		"uppercase":      strings.ToUpper,
 		"lowercase":      strings.ToLower,
-		"trim":           strings.TrimSpace,
-		"title":          strings.Title,
 		"regexReplace":   regexReplace,
 	}
 )
 
 func init() {
+	for name, function := range sprig.GenericFuncMap() {
+		if invalidHelper(name) {
+			continue
+		}
+
+		funcs[name] = function
+	}
+
 	raymond.RegisterHelpers(funcs)
 }
 
@@ -123,4 +130,24 @@ func uppercaseFirst(s string) string {
 func regexReplace(pattern string, input string, replacement string) string {
 	re := regexp.MustCompile(pattern)
 	return re.ReplaceAllString(input, replacement)
+}
+
+func invalidHelper(name string) bool {
+	invalids := []string{
+		"buildCustomCert",
+		"fail",
+		"genSelfSignedCert",
+		"genSignedCert",
+		"genCA",
+		"semver",
+		"semverCompare",
+	}
+
+	for _, invalid := range invalids {
+		if name == invalid {
+			return true
+		}
+	}
+
+	return false
 }
