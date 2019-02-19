@@ -1,0 +1,6 @@
+github.com/aymerick/raymond v2.0.2+incompatible h1:VEp3GpgdAnv9B2GFyTvqgcKvY+mfKMjPOA3SbKLtnU0=
+github.com/aymerick/raymond v2.0.2+incompatible/go.mod h1:osfaiScAUVup+UC9Nfq76eWqDhXlp+4UYaA8uhTBO6g=
+github.com/bouk/monkey v1.0.0/go.mod h1:PG/63f4XEUlVyW1ttIeOJmJhhe1+t9EC/je3eTjvFhE=
+github.com/pkg/errors v0.8.0 h1:WdK/asTD0HN+q6hsWO3/vpuAkAr+tw6aNJNDFFf0+qw=
+github.com/pkg/errors v0.8.0/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
+github.com/tkuchiki/faketime v0.0.0-20170607100027-a4500a4f4643/go.mod h1:RXY/TXAwGGL36IKDjrHFMcjpUrEiyWSEtLhFPw3UWF0=
