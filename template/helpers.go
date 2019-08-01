@@ -134,13 +134,17 @@ func regexReplace(pattern string, input string, replacement string) string {
 
 func invalidHelper(name string) bool {
 	invalids := []string{
+		"genPrivateKey",
+		"derivePassword",
 		"buildCustomCert",
-		"fail",
 		"genSelfSignedCert",
 		"genSignedCert",
 		"genCA",
+		"fail",
 		"semver",
 		"semverCompare",
+		"hello",
+		"trimall",
 	}
 
 	for _, invalid := range invalids {
