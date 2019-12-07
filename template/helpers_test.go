@@ -98,3 +98,33 @@ func TestRegexReplace(t *testing.T) {
 		t.Errorf("error, expected %s, got %s", expected, actual)
 	}
 }
+
+func TestTrimLeft(t *testing.T) {
+	vals := map[string]string{
+		"hello\n":         "hello\n",
+		"\nhello\n":       "hello\n",
+		"\r\nhello\n":     "hello\n",
+		"\n\r\nhello\r\n": "hello\r\n",
+	}
+
+	for input, want := range vals {
+		if got := trimLeft(input); got != want {
+			t.Errorf("Want to left trim spaces from string %s to %s, got %s", input, want, got)
+		}
+	}
+}
+
+func TestTrimRight(t *testing.T) {
+	vals := map[string]string{
+		"\nhello":         "\nhello",
+		"\nhello\n":       "\nhello",
+		"\nhello\r\n":     "\nhello",
+		"\r\nhello\n\r\n": "\r\nhello",
+	}
+
+	for input, want := range vals {
+		if got := trimRight(input); got != want {
+			t.Errorf("Want to left trim spaces from string %s to %s, got %s", input, want, got)
+		}
+	}
+}

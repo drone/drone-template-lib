@@ -40,6 +40,9 @@ var (
 		"uppercase":      strings.ToUpper,
 		"lowercase":      strings.ToLower,
 		"regexReplace":   regexReplace,
+		"trim":           trimSpace,
+		"trimLeft":       trimLeft,
+		"trimRight":      trimRight,
 	}
 )
 
@@ -130,6 +133,18 @@ func uppercaseFirst(s string) string {
 func regexReplace(pattern string, input string, replacement string) string {
 	re := regexp.MustCompile(pattern)
 	return re.ReplaceAllString(input, replacement)
+}
+
+func trimLeft(s string) string {
+	return strings.TrimLeft(s, "\r\n")
+}
+
+func trimRight(s string) string {
+	return strings.TrimRight(s, "\r\n")
+}
+
+func trimSpace(s string) string {
+	return strings.TrimSpace(s)
 }
 
 func invalidHelper(name string) bool {
