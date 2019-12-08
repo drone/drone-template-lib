@@ -41,8 +41,8 @@ var (
 		"lowercase":      strings.ToLower,
 		"regexReplace":   regexReplace,
 		"trim":           trimSpace,
-		"trimLeft":       trimLeft,
-		"trimRight":      trimRight,
+		"trimleft":       trimLeft,
+		"trimright":      trimRight,
 	}
 )
 
