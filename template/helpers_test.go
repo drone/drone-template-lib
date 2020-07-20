@@ -20,7 +20,7 @@ import (
 )
 
 func TestToDuration(t *testing.T) {
-	from := float64(time.Date(2017, time.November, 15, 23, 0, 0, 0, time.UTC).Unix())
+	from := time.Date(2017, time.November, 15, 23, 0, 0, 0, time.UTC).Unix()
 
 	vals := map[int64]string{
 		time.Date(2018, time.November, 15, 23, 0, 0, 0, time.UTC).Unix():   "8760h0m0s",
@@ -31,8 +31,8 @@ func TestToDuration(t *testing.T) {
 	}
 
 	for input, want := range vals {
-		if got := toDuration(from, float64(input)); got != want {
-			t.Errorf("Want transform %f-%f to %s, got %s", from, float64(input), want, got)
+		if got := toDuration(from, input); got != want {
+			t.Errorf("Want transform %d-%d to %s, got %s", from, input, want, got)
 		}
 	}
 }
