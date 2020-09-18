@@ -17,6 +17,7 @@ package template
 import (
 	"fmt"
 	"net/url"
+	"math"
 	"regexp"
 	"strings"
 	"time"
@@ -109,9 +110,9 @@ func truncate(s string, len int) string {
 	if len < 0 {
  		len = -len
 		return string(runes[len:])
-	} else {
-		return string(runes[:len])
 	}
+
+	return string(runes[:len])
 }
 
 func urlencode(options *raymond.Options) string {
