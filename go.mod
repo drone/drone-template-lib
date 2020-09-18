@@ -1,6 +1,6 @@
 module github.com/drone/drone-template-lib
 
-go 1.12
+go 1.13
 
 require (
 	github.com/Masterminds/goutils v1.1.0 // indirect
@@ -10,7 +10,6 @@ require (
 	github.com/google/uuid v1.1.1 // indirect
 	github.com/huandu/xstrings v1.2.0 // indirect
 	github.com/imdario/mergo v0.3.7 // indirect
-	github.com/pkg/errors v0.8.1
 	github.com/stretchr/testify v1.6.1 // indirect
 	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
