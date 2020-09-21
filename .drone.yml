@@ -9,7 +9,6 @@ platform:
 
 steps:
 - name: environment
-  pull: always
   image: golang:1.15
   commands:
   - go version
@@ -19,7 +18,6 @@ steps:
     path: /go
 
 - name: staticcheck
-  pull: never
   image: golang:1.15
   commands:
   - go run honnef.co/go/tools/cmd/staticcheck ./...
@@ -28,7 +26,6 @@ steps:
     path: /go
 
 - name: lint
-  pull: never
   image: golang:1.15
   commands:
   - go run golang.org/x/lint/golint -set_exit_status ./...
@@ -37,7 +34,6 @@ steps:
     path: /go
 
 - name: vet
-  pull: never
   image: golang:1.15
   commands:
   - go vet ./...
@@ -46,7 +42,6 @@ steps:
     path: /go
 
 - name: test
-  pull: never
   image: golang:1.15
   commands:
   - go test -cover -v ./...
