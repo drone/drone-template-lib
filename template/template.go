@@ -15,13 +15,13 @@
 package template
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
 
 	"github.com/aymerick/raymond"
-	"github.com/pkg/errors"
 )
 
 // Render parses and executes a template, returning the results in string
@@ -37,7 +37,7 @@ func Render(template string, payload interface{}) (s string, err error) {
 			res, err := http.Get(template)
 
 			if err != nil {
-				return s, errors.Wrap(err, "failed to fetch")
+				return s, fmt.Errorf("failed to fetch: %w", err)
 			}
 
 			defer res.Body.Close()
@@ -45,7 +45,7 @@ func Render(template string, payload interface{}) (s string, err error) {
 			out, err := ioutil.ReadAll(res.Body)
 
 			if err != nil {
-				return s, errors.Wrap(err, "failed to read")
+				return s, fmt.Errorf("failed to read: %w", err)
 			}
 
 			template = string(out)
@@ -53,7 +53,7 @@ func Render(template string, payload interface{}) (s string, err error) {
 			out, err := ioutil.ReadFile(u.Path)
 
 			if err != nil {
-				return s, errors.Wrap(err, "failed to read")
+				return s, fmt.Errorf("failed to read: %w", err)
 			}
 
 			template = string(out)
