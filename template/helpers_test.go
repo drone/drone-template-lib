@@ -53,6 +53,22 @@ func TestTruncate(t *testing.T) {
 	}
 }
 
+func TestNegativeTruncate(t *testing.T) {
+	vals := map[string]string{
+		"foobarz": "rz",
+		"foöäüüu": "üu",
+		"üpsßßßk": "ßk",
+		"1234567": "67",
+		"!'§$%&/": "&/",
+	}
+
+	for input, want := range vals {
+		if got := truncate(input, -5); got != want {
+			t.Errorf("Want transform %s to %s, got %s", input, want, got)
+		}
+	}
+}
+
 func TestSince(t *testing.T) {
 	t.Skip()
 }

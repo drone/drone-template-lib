@@ -17,6 +17,7 @@ package template
 import (
 	"fmt"
 	"net/url"
+	"math"
 	"regexp"
 	"strings"
 	"time"
@@ -100,11 +101,16 @@ func isFailure(conditional bool, options *raymond.Options) string {
 }
 
 func truncate(s string, len int) string {
-	if utf8.RuneCountInString(s) <= len {
+	if utf8.RuneCountInString(s) <= int(math.Abs(float64(len))) {
 		return s
 	}
 
 	runes := []rune(s)
+
+	if len < 0 {
+ 		len = -len
+		return string(runes[len:])
+	}
 
 	return string(runes[:len])
 }
