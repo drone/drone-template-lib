@@ -16,15 +16,15 @@ package template
 
 import (
 	"fmt"
-	"net/url"
 	"math"
+	"net/url"
 	"regexp"
 	"strings"
 	"time"
 	"unicode"
 	"unicode/utf8"
 
-	"github.com/Masterminds/sprig"
+	"github.com/Masterminds/sprig/v3"
 	"github.com/aymerick/raymond"
 )
 
@@ -108,7 +108,7 @@ func truncate(s string, len int) string {
 	runes := []rune(s)
 
 	if len < 0 {
- 		len = -len
+		len = -len
 		return string(runes[len:])
 	}
 
@@ -140,16 +140,46 @@ func regexReplace(pattern string, input string, replacement string) string {
 
 func invalidHelper(name string) bool {
 	invalids := []string{
-		"genPrivateKey",
-		"derivePassword",
 		"buildCustomCert",
+		"decryptAES",
+		"derivePassword",
+		"encryptAES",
+		"fail",
+		"genCA",
+		"genPrivateKey",
 		"genSelfSignedCert",
 		"genSignedCert",
-		"genCA",
-		"fail",
+		"hello",
+		"mustAppend",
+		"mustCompact",
+		"mustDateModify",
+		"mustDeepCopy",
+		"mustFirst",
+		"mustHas",
+		"mustInitial",
+		"mustLast",
+		"mustMerge",
+		"mustMergeOverwrite",
+		"mustPrepend",
+		"mustPush",
+		"mustRegexFind",
+		"mustRegexFindAll",
+		"mustRegexMatch",
+		"mustRegexReplaceAll",
+		"mustRegexReplaceAllLiteral",
+		"mustRegexSplit",
+		"mustRest",
+		"mustReverse",
+		"mustSlice",
+		"mustToDate",
+		"mustToJson",
+		"mustToPrettyJson",
+		"mustToRawJson",
+		"mustUniq",
+		"mustWithout",
+		"must_date_modify",
 		"semver",
 		"semverCompare",
-		"hello",
 		"trimall",
 	}
 
