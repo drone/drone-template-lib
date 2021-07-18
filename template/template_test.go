@@ -18,14 +18,26 @@ import (
 	"testing"
 )
 
+const template = `
+<p>{{ safeRegexReplace "\n" hello_world "<br>" }}</p>
+<p>{{ htmlLineBreaks lorem_ipsum }}</p>
+`
+
+const expected = `
+<p>hello<br>world</p>
+<p>lorem ipsum<br>sit dolor<br></p>
+`
+
 func TestRender(t *testing.T) {
-	template := `<p>{{ safeRegexReplace "\n" content "<br>" }}</p>`
 	ctx := map[string]string{
-    "content": "hello\nworld",
+		"hello_world": "hello\nworld",
+		"lorem_ipsum": "lorem ipsum\nsit dolor\n",
 	}
 
-	expected  := "<p>hello<br>world</p>"
-	actual, _ := Render(template, ctx)
+	actual, err := Render(template, ctx)
+	if err != nil {
+		t.Errorf("error, %v", err)
+	}
 	if actual != expected {
 		t.Errorf("error, expected %s, got %s", expected, actual)
 	}
