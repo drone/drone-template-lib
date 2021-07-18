@@ -42,6 +42,7 @@ var (
 		"lowercase":        strings.ToLower,
 		"regexReplace":     regexReplace,
 		"safeRegexReplace": safeRegexReplace,
+		"htmlLineBreaks":   htmlLineBreaks,
 	}
 )
 
@@ -141,6 +142,10 @@ func regexReplace(pattern string, input string, replacement string) string {
 
 func safeRegexReplace(pattern string, input string, replacement string) raymond.SafeString {
 	return raymond.SafeString(regexReplace(pattern, input, replacement))
+}
+
+func htmlLineBreaks(input string) raymond.SafeString {
+	return safeRegexReplace("\n", input, "<br>")
 }
 
 func invalidHelper(name string) bool {
