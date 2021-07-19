@@ -30,17 +30,19 @@ import (
 
 var (
 	funcs = map[string]interface{}{
-		"duration":       toDuration,
-		"datetime":       toDatetime,
-		"success":        isSuccess,
-		"failure":        isFailure,
-		"truncate":       truncate,
-		"urlencode":      urlencode,
-		"since":          since,
-		"uppercasefirst": uppercaseFirst,
-		"uppercase":      strings.ToUpper,
-		"lowercase":      strings.ToLower,
-		"regexReplace":   regexReplace,
+		"duration":         toDuration,
+		"datetime":         toDatetime,
+		"success":          isSuccess,
+		"failure":          isFailure,
+		"truncate":         truncate,
+		"urlencode":        urlencode,
+		"since":            since,
+		"uppercasefirst":   uppercaseFirst,
+		"uppercase":        strings.ToUpper,
+		"lowercase":        strings.ToLower,
+		"regexReplace":     regexReplace,
+		"safeRegexReplace": safeRegexReplace,
+		"htmlLineBreaks":   htmlLineBreaks,
 	}
 )
 
@@ -136,6 +138,14 @@ func uppercaseFirst(s string) string {
 func regexReplace(pattern string, input string, replacement string) string {
 	re := regexp.MustCompile(pattern)
 	return re.ReplaceAllString(input, replacement)
+}
+
+func safeRegexReplace(pattern string, input string, replacement string) raymond.SafeString {
+	return raymond.SafeString(regexReplace(pattern, input, replacement))
+}
+
+func htmlLineBreaks(input string) raymond.SafeString {
+	return safeRegexReplace("\n", input, "<br>")
 }
 
 func invalidHelper(name string) bool {
