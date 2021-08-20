@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"math"
 	"net/url"
+	"reflect"
 	"regexp"
 	"strings"
 	"time"
@@ -25,11 +26,11 @@ import (
 	"unicode/utf8"
 
 	"github.com/Masterminds/sprig/v3"
-	"github.com/aymerick/raymond"
+	"github.com/flowchartsman/handlebars/v3"
 )
 
-var (
-	funcs = map[string]interface{}{
+func init() {
+	funcs := map[string]interface{}{
 		"duration":       toDuration,
 		"datetime":       toDatetime,
 		"success":        isSuccess,
@@ -42,18 +43,13 @@ var (
 		"lowercase":      strings.ToLower,
 		"regexReplace":   regexReplace,
 	}
-)
-
-func init() {
-	for name, function := range sprig.GenericFuncMap() {
-		if invalidHelper(name) {
+	for name, f := range sprig.GenericFuncMap() {
+		if _, ok := funcs[name]; ok || !validHelper(f) {
 			continue
 		}
-
-		funcs[name] = function
+		funcs[name] = f
 	}
-
-	raymond.RegisterHelpers(funcs)
+	handlebars.RegisterHelpers(funcs)
 }
 
 func toDuration(started, finished int64) string {
@@ -66,7 +62,6 @@ func toDatetime(timestamp int64, layout, zone string) string {
 	}
 
 	loc, err := time.LoadLocation(zone)
-
 	if err != nil {
 		return time.Unix(timestamp, 0).Local().Format(layout)
 	}
@@ -74,7 +69,7 @@ func toDatetime(timestamp int64, layout, zone string) string {
 	return time.Unix(timestamp, 0).In(loc).Format(layout)
 }
 
-func isSuccess(conditional bool, options *raymond.Options) string {
+func isSuccess(conditional bool, options *handlebars.Options) string {
 	if !conditional {
 		return options.Inverse()
 	}
@@ -87,7 +82,7 @@ func isSuccess(conditional bool, options *raymond.Options) string {
 	}
 }
 
-func isFailure(conditional bool, options *raymond.Options) string {
+func isFailure(conditional bool, options *handlebars.Options) string {
 	if !conditional {
 		return options.Inverse()
 	}
@@ -115,7 +110,7 @@ func truncate(s string, len int) string {
 	return string(runes[:len])
 }
 
-func urlencode(options *raymond.Options) string {
+func urlencode(options *handlebars.Options) string {
 	return url.QueryEscape(options.Fn())
 }
 
@@ -138,56 +133,28 @@ func regexReplace(pattern string, input string, replacement string) string {
 	return re.ReplaceAllString(input, replacement)
 }
 
-func invalidHelper(name string) bool {
-	invalids := []string{
-		"buildCustomCert",
-		"decryptAES",
-		"derivePassword",
-		"encryptAES",
-		"fail",
-		"genCA",
-		"genPrivateKey",
-		"genSelfSignedCert",
-		"genSignedCert",
-		"hello",
-		"mustAppend",
-		"mustCompact",
-		"mustDateModify",
-		"mustDeepCopy",
-		"mustFirst",
-		"mustHas",
-		"mustInitial",
-		"mustLast",
-		"mustMerge",
-		"mustMergeOverwrite",
-		"mustPrepend",
-		"mustPush",
-		"mustRegexFind",
-		"mustRegexFindAll",
-		"mustRegexMatch",
-		"mustRegexReplaceAll",
-		"mustRegexReplaceAllLiteral",
-		"mustRegexSplit",
-		"mustRest",
-		"mustReverse",
-		"mustSlice",
-		"mustToDate",
-		"mustToJson",
-		"mustToPrettyJson",
-		"mustToRawJson",
-		"mustUniq",
-		"mustWithout",
-		"must_date_modify",
-		"semver",
-		"semverCompare",
-		"trimall",
+func validHelper(f interface{}) bool {
+	typ := reflect.TypeOf(f)
+	if typ.NumOut() != 1 {
+		return false
 	}
-
-	for _, invalid := range invalids {
-		if name == invalid {
-			return true
-		}
+	v := reflect.Zero(typ.Out(0))
+	switch v.Interface().(type) {
+	case
+		bool,
+		float64,
+		[]int,
+		int,
+		int64,
+		[][]interface{},
+		[]interface{},
+		interface{},
+		map[string]interface{},
+		map[string]string,
+		[]string,
+		string,
+		time.Time:
+		return true
 	}
-
 	return false
 }
