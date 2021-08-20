@@ -21,7 +21,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/aymerick/raymond"
+	"github.com/flowchartsman/handlebars/v3"
 )
 
 // Render parses and executes a template, returning the results in string
@@ -35,7 +35,6 @@ func Render(template string, payload interface{}) (s string, err error) {
 		switch u.Scheme {
 		case "http", "https":
 			res, err := http.Get(template)
-
 			if err != nil {
 				return s, fmt.Errorf("failed to fetch: %w", err)
 			}
@@ -43,7 +42,6 @@ func Render(template string, payload interface{}) (s string, err error) {
 			defer res.Body.Close()
 
 			out, err := ioutil.ReadAll(res.Body)
-
 			if err != nil {
 				return s, fmt.Errorf("failed to read: %w", err)
 			}
@@ -51,7 +49,6 @@ func Render(template string, payload interface{}) (s string, err error) {
 			template = string(out)
 		case "file":
 			out, err := ioutil.ReadFile(u.Path)
-
 			if err != nil {
 				return s, fmt.Errorf("failed to read: %w", err)
 			}
@@ -60,7 +57,7 @@ func Render(template string, payload interface{}) (s string, err error) {
 		}
 	}
 
-	return raymond.Render(template, payload)
+	return handlebars.Render(template, payload)
 }
 
 // RenderTrim parses and executes a template, returning the results in string

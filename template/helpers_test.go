@@ -69,10 +69,6 @@ func TestNegativeTruncate(t *testing.T) {
 	}
 }
 
-func TestSince(t *testing.T) {
-	t.Skip()
-}
-
 func TestUppercaseFirst(t *testing.T) {
 	vals := map[string]string{
 		"hello":  "Hello",
